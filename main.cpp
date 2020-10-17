@@ -1,52 +1,44 @@
 #include <iostream>
-#include <random>
 
-// пользователь вводит координаты точки
-void aim(int& x, int& y) {
-    std::cout << "Aim on the x coordinate: ";
+void aim(int& x, int& y) 
+{
+    std::cout << "введите координаты х :";
     std::cin >> x;
-    std::cout << "Aim on the y coordinate: ";
+    std::cout << "введите координаты у: ";
     std::cin >> y;
 }
-
-// производит простейшую симуляцию броска, после которого изменяются координаты точки
-void throwADart(int& x, int& y) {
-    // более непредсказумый выбор случайного числа 
-    std::random_device rd;
-    std::mt19937 mersenne(rd());
-    x += static_cast<int>(mersenne() % 11 - 6);
-    y += static_cast<int>(mersenne() % 11 - 6);
+void randd(int& x, int& y) 
+{
+    // добавляет к введенному значении рандомное число чтобы было сложнее попасть
+    
+    x += rand ()%3;
+    y += rand() %3;
 }
-
-// прицеливание, бросок и подсчет очков
-int getThrowPoints() {
-    int x, y, points;
+int getranddPoints() // мишень  и выстрелы в нее
+{
+    int x, y, ball;
     double R;
 
     aim(x, y);
-    throwADart(x, y);
-
+    randd(x, y);
     R = sqrt(x * x + y * y);
-    points = (R <= 5) ? abs(static_cast<int>(ceil(R)) - 5) : 0;
-
-    std::cout << "You hit the point (" << x << ", " << y << ") and got " << points << " points" << std::endl;
-    return points;
+    ball = (R <= 5) ? abs(static_cast<int>(ceil(R)) - 5) : 0;
+    std::cout << "You hit the point (" << x << ", " << y << ") and got " << ball << " points" << std::endl;
+    return ball;
 }
 
-
-int main() {
-    int points = 0;
+int main() // посчет баллов и вывод результата 
+{
+    int ball = 0;
 
     for (int i = 0; i < 5; i++) {
-        points += getThrowPoints();
+        ball += getranddPoints();
     }
-
-    if (points < 10) {
-        std::cout << "You got " << points << " points and you lost";
+    if (ball < 10) {
+    std::cout << "Вы набрали " << ball << " баллов и вы проиграли";
     }
     else {
-        std::cout << "You got " << points << " points and you won";
+    std::cout << "Вы набрали " << ball << " баллов и вы выйиграли";
     }
-
     return 0;
 }
